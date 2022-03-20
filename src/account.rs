@@ -265,7 +265,7 @@ mod tests {
 
         account.transact(Transaction::new_resolve(1, 1)).unwrap();
 
-        assert_eq!(false, account.transactions.get(&1).unwrap().disputed);
+        assert!(!account.transactions.get(&1).unwrap().disputed);
         assert_eq!(deposit_value, account.available);
         assert_eq!(deposit_value, account.total);
         assert_eq!(Decimal::zero(), account.held);
