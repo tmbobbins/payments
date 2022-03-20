@@ -184,7 +184,7 @@ mod tests {
         assert_eq!(Decimal::zero(), account.available);
         assert_eq!(Decimal::zero(), account.total);
         assert_eq!(Decimal::zero(), account.held);
-        assert_eq!(false, account.locked);
+        assert!(!account.locked);
     }
 
     #[test]
@@ -198,7 +198,7 @@ mod tests {
         assert_eq!(deposit_value, account.available);
         assert_eq!(deposit_value, account.total);
         assert_eq!(Decimal::zero(), account.held);
-        assert_eq!(false, account.locked);
+        assert!(!account.locked);
     }
 
     #[test]
@@ -217,7 +217,7 @@ mod tests {
         assert_eq!(deposit_value - withdrawal_value, account.available);
         assert_eq!(deposit_value - withdrawal_value, account.total);
         assert_eq!(Decimal::zero(), account.held);
-        assert_eq!(false, account.locked);
+        assert!(!account.locked);
 
         account
             .transact(Transaction::new_withdrawal(1, 3, withdrawal_value))
@@ -226,7 +226,7 @@ mod tests {
         assert_eq!(Decimal::zero(), account.available);
         assert_eq!(Decimal::zero(), account.total);
         assert_eq!(Decimal::zero(), account.held);
-        assert_eq!(false, account.locked);
+        assert!(!account.locked);
     }
 
     #[test]
@@ -246,7 +246,7 @@ mod tests {
         assert_eq!(deposit_value, account.available);
         assert_eq!(deposit_value, account.total);
         assert_eq!(Decimal::zero(), account.held);
-        assert_eq!(false, account.locked);
+        assert!(!account.locked);
     }
 
     #[test]
@@ -261,15 +261,15 @@ mod tests {
         assert_eq!(Decimal::zero(), account.available);
         assert_eq!(deposit_value, account.total);
         assert_eq!(deposit_value, account.held);
-        assert_eq!(false, account.locked);
+        assert!(!account.locked);
 
         account.transact(Transaction::new_resolve(1, 1)).unwrap();
 
-        assert_eq!(false, account.transactions.get(&1).unwrap().disputed);
+        assert!(!account.transactions.get(&1).unwrap().disputed);
         assert_eq!(deposit_value, account.available);
         assert_eq!(deposit_value, account.total);
         assert_eq!(Decimal::zero(), account.held);
-        assert_eq!(false, account.locked);
+        assert!(!account.locked);
     }
 
     #[test]
@@ -285,7 +285,7 @@ mod tests {
         assert_eq!(Decimal::zero(), account.available);
         assert_eq!(Decimal::zero(), account.total);
         assert_eq!(Decimal::zero(), account.held);
-        assert_eq!(true, account.locked);
+        assert!(account.locked);
     }
 
     #[test]
@@ -304,7 +304,7 @@ mod tests {
         assert_eq!(Decimal::zero(), account.available);
         assert_eq!(deposit_value, account.total);
         assert_eq!(deposit_value, account.held);
-        assert_eq!(false, account.locked);
+        assert!(!account.locked);
     }
 
     #[test]
@@ -326,7 +326,7 @@ mod tests {
         assert_eq!(deposit_value - withdrawal_value, account.available);
         assert_eq!(deposit_value - withdrawal_value, account.total);
         assert_eq!(Decimal::zero(), account.held);
-        assert_eq!(false, account.locked);
+        assert!(!account.locked);
     }
 
     #[test]
@@ -349,7 +349,7 @@ mod tests {
         assert_eq!(deposit_value, account.available);
         assert_eq!(deposit_value, account.total);
         assert_eq!(Decimal::zero(), account.held);
-        assert_eq!(false, account.locked);
+        assert!(!account.locked);
     }
 
     #[test]
@@ -371,7 +371,7 @@ mod tests {
         assert_eq!(deposit_value - withdrawal_value, account.available);
         assert_eq!(deposit_value - withdrawal_value, account.total);
         assert_eq!(Decimal::zero(), account.held);
-        assert_eq!(false, account.locked); // TODO: we would most likely want to lock an account pending investigation here?
+        assert!(!account.locked); // TODO: we would most likely want to lock an account pending investigation here?
     }
 
     #[test]
@@ -395,6 +395,6 @@ mod tests {
         assert_eq!(Decimal::zero(), account.available);
         assert_eq!(Decimal::zero(), account.total);
         assert_eq!(Decimal::zero(), account.held);
-        assert_eq!(false, account.locked);
+        assert!(!account.locked);
     }
 }
