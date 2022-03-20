@@ -33,7 +33,7 @@ Automated integration testing as well as more thorough unit testing is desired.
 - restructure to have per transaction type traits (Deposit, Withdrawal, Dispute, Resolve, Chargeback)
 - explore data storage for transactional persistence (redis / postgres / etc...)
 - Although there's a number of tests around the transactions in the account the project is lacking testing in some areas and also lacking any automated integration tests
-- Handle withdrawal disputes, fundamentally inverting the logic of dispute, resolve & chareback
+- Handle withdrawal disputes, fundamentally inverting the logic of dispute, resolve & chargeback
 - Add in error export to file / sentry / etc.
 - enforce 4 dp across implementation (current handles up to 28 (rust_decimal))
 
