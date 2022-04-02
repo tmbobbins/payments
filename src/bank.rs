@@ -23,6 +23,7 @@ impl Bank {
             .entry(transaction.id)
             .or_insert_with(|| transaction.client_id)
     }
+
     fn duplicate_transaction_id(&mut self, transaction: &Transaction) -> bool {
         self.get_or_insert_client_id(transaction) != transaction.client_id
     }
