@@ -1,3 +1,5 @@
+use std::error::Error;
+use std::fmt::{Display, Formatter, Result};
 /*
 * TODO: Split error into separate errors per type or into account specific errors
  */
@@ -20,6 +22,14 @@ pub enum TransactionErrorKind {
 pub struct TransactionError {
     kind: TransactionErrorKind,
     message: String,
+}
+
+impl Error for TransactionError {}
+
+impl Display for TransactionError {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(f, "{:?}: {}", self.kind, self.message)
+    }
 }
 
 impl From<&str> for TransactionError {

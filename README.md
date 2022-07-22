@@ -38,10 +38,12 @@ Automated integration testing as well as more thorough unit testing is desired.
 - enforce 4 dp across implementation (current handles up to 28 (rust_decimal))
 
 ## Dependencies
+#### ahash
+[![dependency status](https://deps.rs/crate/ahash/0.7.6/status.svg)](https://deps.rs/crate/ahash/0.7.6)
 #### csv
 [![dependency status](https://deps.rs/crate/csv/1.1.6/status.svg)](https://deps.rs/crate/csv/1.1.6)
 #### serde
-[![dependency status](https://deps.rs/crate/serde/1.0.136/status.svg)](https://deps.rs/crate/serde/1.0.136)
+[![dependency status](https://deps.rs/crate/serde/1.0.140/status.svg)](https://deps.rs/crate/serde/1.0.140)
 #### rust_decimal
-[![dependency status](https://deps.rs/crate/rust_decimal/1.22.0/status.svg)](https://deps.rs/crate/rust_decimal/1.22.0) \
+[![dependency status](https://deps.rs/crate/rust_decimal/1.25.0/status.svg)](https://deps.rs/crate/rust_decimal/1.25.0) \
 appears to have vulnerability through diesel, however not in use here.

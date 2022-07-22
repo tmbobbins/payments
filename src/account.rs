@@ -2,10 +2,10 @@ use crate::transaction::transaction_error::TransactionError;
 use crate::transaction::transaction_lite::TransactionLite;
 use crate::transaction::transaction_type::TransactionType;
 use crate::transaction::Transaction;
+use ahash::AHashMap;
 use rust_decimal::Decimal;
 use serde::Serialize;
 use std::collections::hash_map::Entry;
-use std::collections::HashMap;
 
 pub type TransactionResult<T> = Result<T, TransactionError>;
 
@@ -21,7 +21,7 @@ pub struct Account {
     #[serde(rename = "client")]
     client_id: u16,
     #[serde(skip)]
-    transactions: HashMap<u32, TransactionLite>,
+    transactions: AHashMap<u32, TransactionLite>,
     #[serde(serialize_with = "decimal_normalize_serialize")]
     available: Decimal,
     #[serde(serialize_with = "decimal_normalize_serialize")]
@@ -35,7 +35,7 @@ impl Account {
     pub fn new(client_id: u16) -> Self {
         Self {
             client_id,
-            transactions: HashMap::new(),
+            transactions: AHashMap::new(),
             available: Decimal::new(0, 4),
             held: Decimal::new(0, 4),
             total: Decimal::new(0, 4),
@@ -63,27 +63,21 @@ impl Account {
         Ok(())
     }
 
-    fn add_to_transactions(&mut self, transaction: &Transaction) -> TransactionResult<()> {
-        match self.transactions.entry(transaction.id) {
-            Entry::Occupied(_) => return Err(TransactionError::already_exists()),
-            Entry::Vacant(transactions) => {
-                transactions.insert(TransactionLite::new(
-                    transaction.t_type.clone(),
-                    transaction.amount()?,
-                ));
-            }
-        }
-
-        Ok(())
+    fn add_to_transactions(
+        &mut self,
+        transaction: &Transaction,
+    ) -> TransactionResult<&mut TransactionLite> {
+        return match self.transactions.entry(transaction.id) {
+            Entry::Occupied(_) => Err(TransactionError::already_exists()),
+            Entry::Vacant(transactions) => Ok(transactions.insert(TransactionLite::new(
+                transaction.t_type.clone(),
+                transaction.amount()?,
+            ))),
+        };
     }
 
     fn deposit(&mut self, transaction: Transaction) -> TransactionResult<()> {
-        self.add_to_transactions(&transaction)?;
-        let amount = self
-            .transactions
-            .get_mut(&transaction.id)
-            .ok_or_else(TransactionError::does_not_exist)?
-            .amount;
+        let amount = self.add_to_transactions(&transaction)?.amount;
 
         self.total += amount;
         self.available += amount;
@@ -162,6 +156,18 @@ impl Account {
         self.locked = true;
 
         Ok(())
+    }
+
+    pub fn available(&self) -> &Decimal {
+        &self.available
+    }
+
+    pub fn held(&self) -> &Decimal {
+        &self.held
+    }
+
+    pub fn total(&self) -> &Decimal {
+        &self.total
     }
 }
 

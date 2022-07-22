@@ -3,7 +3,7 @@ pub mod transaction_lite;
 pub mod transaction_type;
 
 use rust_decimal::Decimal;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use transaction_error::TransactionError;
 use transaction_type::TransactionType;
 use transaction_type::TransactionType::{Chargeback, Deposit, Dispute, Resolve, Withdrawal};
@@ -16,7 +16,7 @@ use transaction_type::TransactionType::{Chargeback, Deposit, Dispute, Resolve, W
  * impl Transact for Deposit {}
  * impl Transact for Withdrawal {}
  */
-#[derive(Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Transaction {
     #[serde(rename = "type")]
     pub t_type: TransactionType,
