@@ -1,6 +1,5 @@
 use csv::{Reader, ReaderBuilder, Trim, Writer};
 use payments::bank::Bank;
-use payments::transaction::Transaction;
 use std::error::Error;
 use std::ffi::OsString;
 use std::fs::File;
@@ -55,6 +54,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use payments::transaction::Transaction;
     use rust_decimal::prelude::Zero;
     use rust_decimal::Decimal;
     use std::fs::remove_file;
