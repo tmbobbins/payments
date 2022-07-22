@@ -1,11 +1,11 @@
 use crate::account::Account;
 use crate::transaction::Transaction;
-use std::collections::HashMap;
+use ahash::AHashMap;
 
 #[derive(Default)]
 pub struct Bank {
-    accounts: HashMap<u16, Account>,
-    transactions: HashMap<u32, u16>,
+    accounts: AHashMap<u16, Account>,
+    transactions: AHashMap<u32, u16>,
 }
 
 impl Bank {
@@ -13,7 +13,7 @@ impl Bank {
         Bank::default()
     }
 
-    pub fn accounts(&self) -> &HashMap<u16, Account> {
+    pub fn accounts(&self) -> &AHashMap<u16, Account> {
         &self.accounts
     }
 
